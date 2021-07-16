@@ -1,9 +1,12 @@
 import Link from "next/link";
+import { useRouter } from "next/router";
+import { useRef, useState } from "react";
 import { getStrapiMedia } from "../utils/medias";
 
-const ProductsList = ({ products }) => {
-  return (
-    <div className="m-6 grid grid-cols-1 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-4 mt-8">
+const ProductsList = ({ products, categoryName, needFilters = true }) => {
+  if (!products) return "Продукты отсутствуют";
+  const productsList = (
+    <div className="mx-6 grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 ">
       {products.map((_product) => (
         <div
           key={_product.id}
@@ -31,6 +34,50 @@ const ProductsList = ({ products }) => {
         </div>
       ))}
     </div>
+  );
+  if (!needFilters) return productsList;
+
+  const [orderTitle, setOrderTitle] = useState(false);
+  const [orderPrice, setOrderPrice] = useState(false);
+  const router = useRouter();
+  const currentURL = useRef(router.asPath);
+
+  return (
+    <>
+      {categoryName && <h1>{categoryName}</h1>}
+      <div className="w-full px-5 py-4 bg-white mt-6">
+        <Link
+          href={{
+            pathname: `${currentURL.current}`,
+            query: {
+              sort_by: "title",
+              sort_order: `${orderTitle ? "desc" : "asc"}`,
+            },
+          }}
+        >
+          <a className="mr-10" onClick={() => setOrderTitle(!orderTitle)}>
+            По алфавиту
+          </a>
+        </Link>
+        <Link
+          href={{
+            pathname: `${currentURL.current}`,
+            query: {
+              sort_by: "price",
+              sort_order: `${orderPrice ? "desc" : "asc"}`,
+            },
+          }}
+        >
+          <a className="mr-10" onClick={() => setOrderPrice(!orderPrice)}>
+            По цене
+          </a>
+        </Link>
+      </div>
+      <div className="flex mt-6">
+        <div className="w-2/6 bg-white"></div>
+        {productsList}
+      </div>
+    </>
   );
 };
 

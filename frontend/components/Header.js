@@ -1,8 +1,8 @@
 import Link from "next/link";
 
-const Navbar = () => {
+const Header = () => {
   return (
-    <div className="flex justify-between ml-6 mr-6 mt-4">
+    <div className="flex justify-between mt-4">
       <Link href="/">
         <a>
           <img
@@ -22,4 +22,4 @@ const Navbar = () => {
   );
 };
 
-export default Navbar;
+export default Header;

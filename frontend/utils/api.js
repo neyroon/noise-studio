@@ -1,33 +1,151 @@
-export function getStrapiURL(path) {
-  return `${
-    process.env.NEXT_PUBLIC_STRAPI_API_URL || "http://localhost:1337"
-  }${path}`;
-}
+import { gql } from "@apollo/client";
 
-// Helper to make GET requests to Strapi
-export async function fetchAPI(path) {
-  const requestUrl = getStrapiURL(path);
-  const response = await fetch(requestUrl);
-  const data = await response.json();
-  return data;
-}
+export const getCategoriesQuery = gql`
+  query Categories {
+    categories {
+      id
+      slug
+      name
+      subcategories {
+        id
+        slug
+        name
+      }
+    }
+  }
+`;
 
-export async function getCategories() {
-  const categories = await fetchAPI("/categories");
-  return categories;
-}
+export const getCategoryQuery = gql`
+  query Category($slug: String!, $sort: String) {
+    categories(where: { slug: $slug }) {
+      id
+      name
+      slug
+      products(sort: $sort) {
+        id
+        title
+        description
+        price
+        image {
+          id
+          name
+          alternativeText
+          caption
+          width
+          height
+          formats
+          hash
+          ext
+          mime
+          size
+          url
+          previewUrl
+          provider
+          provider_metadata
+        }
+        slug
+        status
+      }
+      subcategories {
+        id
+        name
+        slug
+      }
+    }
+  }
+`;
 
-export async function getCategory(slug) {
-  const categories = await fetchAPI(`/categories?slug=${slug}`);
-  return categories?.[0];
-}
+export const getSubCategoryQuery = gql`
+  query SubCategory($slug: String!, $sort: String) {
+    subcategories(where: { slug: $slug }) {
+      id
+      name
+      slug
+      products(sort: $sort) {
+        id
+        title
+        description
+        price
+        image {
+          id
+          name
+          alternativeText
+          caption
+          width
+          height
+          formats
+          hash
+          ext
+          mime
+          size
+          url
+          previewUrl
+          provider
+          provider_metadata
+        }
+        slug
+        status
+      }
+    }
+  }
+`;
 
-export async function getProducts() {
-  const products = await fetchAPI("/products");
-  return products;
-}
+export const getProductsQuery = gql`
+  query Products($sort: String, $limit: Int) {
+    products(sort: $sort, limit: $limit) {
+      id
+      title
+      description
+      price
+      image {
+        id
+        name
+        alternativeText
+        caption
+        width
+        height
+        formats
+        hash
+        ext
+        mime
+        size
+        url
+        previewUrl
+        provider
+        provider_metadata
+      }
+      slug
+      status
+    }
+  }
+`;
 
-export async function getProduct(slug) {
-  const products = await fetchAPI(`/products?slug=${slug}`);
-  return products?.[0];
-}
+export const getProductQuery = gql`
+  query Product($slug: String!) {
+    products(where: { slug: $slug }) {
+      id
+      title
+      description
+      price
+      image {
+        id
+        name
+        alternativeText
+        caption
+        width
+        height
+        formats
+        hash
+        ext
+        mime
+        size
+        url
+        previewUrl
+        provider
+        provider_metadata
+      }
+      slug
+      status
+    }
+  }
+`;

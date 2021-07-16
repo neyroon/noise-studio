@@ -1,21 +1,32 @@
+import { useQuery } from "@apollo/client";
 import Head from "next/head";
 import ProductsList from "../components/ProductsList";
-import { getProducts } from "../utils/api";
+import { getProductsQuery } from "../utils/api";
+import { initializeApollo } from "../utils/apolloClient";
 
-const HomePage = ({ products }) => {
+const HomePage = () => {
+  const { loading, data, error } = useQuery(getProductsQuery, {
+    variables: { sort: "created_at:asc", limit: 12 },
+  });
   return (
     <div>
       <Head>
-        <title>Strapi Next.js E-commerce</title>
+        <title>SoundToCar</title>
       </Head>
-      <ProductsList products={products} />
+      <h1 className="font-bold text-center text-xl mb-6">Новинки</h1>
+      <ProductsList products={data.products} needFilters={false} />
     </div>
   );
 };
 
-export async function getStaticProps() {
-  const products = await getProducts();
-  return { props: { products } };
+export async function getServerSideProps() {
+  const client = initializeApollo();
+  const { loading, data, error } = await client.query({
+    query: getProductsQuery,
+    variables: { sort: "created_at:asc", limit: 12 },
+  });
+
+  return { props: { initialApolloState: client.cache.extract() } };
 }
 
 export default HomePage;

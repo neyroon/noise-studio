@@ -1,23 +1,25 @@
 import App from "next/app";
 import Head from "next/head";
 import Layout from "../components/Layout";
-import { getCategories } from "../utils/api";
-import "../styles/index.css";
+import { ApolloProvider } from "@apollo/client";
+import { getCategoriesQuery } from "../utils/api";
+import { initializeApollo, useApollo } from "../utils/apolloClient";
+import "../styles/index.scss";
 
 const MyApp = ({ Component, pageProps }) => {
+  const apolloClient = useApollo(pageProps.initialApolloState);
   return (
-    <Layout categories={pageProps.categories}>
-      <Head>
-        <link rel="preconnect" href="https://app.snipcart.com" />
-        <link rel="preconnect" href="https://cdn.snipcart.com" />
-        <link
-          rel="stylesheet"
-          href="https://cdn.snipcart.com/themes/v3.0.16/default/snipcart.css"
-        />
-        <script src="https://cdn.snipcart.com/themes/v3.0.16/default/snipcart.js" />
-      </Head>
-      <Component {...pageProps} />
-    </Layout>
+    <ApolloProvider client={apolloClient}>
+      <Layout categories={pageProps.categories}>
+        <Head>
+          <link
+            rel="stylesheet"
+            href="https://cdn.snipcart.com/themes/v3.0.16/default/snipcart.css"
+          />
+        </Head>
+        <Component {...pageProps} />
+      </Layout>
+    </ApolloProvider>
   );
 };
 
@@ -28,10 +30,13 @@ const MyApp = ({ Component, pageProps }) => {
 MyApp.getInitialProps = async (ctx) => {
   // Calls page's `getInitialProps` and fills `appProps.pageProps`
   const appProps = await App.getInitialProps(ctx);
+  const client = initializeApollo();
   // Fetch global site settings from Strapi
-  const categories = await getCategories();
+  const { loading, data, error } = await client.query({
+    query: getCategoriesQuery,
+  });
   // Pass the data to our page via props
-  return { ...appProps, pageProps: { categories, path: ctx.pathname } };
+  return { ...appProps, pageProps: { categories: data.categories } };
 };
 
 export default MyApp;

@@ -1,31 +1,30 @@
 {
   "kind": "collectionType",
-  "collectionName": "categories",
+  "collectionName": "subcategories",
   "info": {
-    "name": "category",
-    "description": ""
+    "name": "Subcategory"
   },
   "options": {
     "increments": true,
     "timestamps": true,
-    "draftAndPublish": false
+    "draftAndPublish": true
   },
+  "pluginOptions": {},
   "attributes": {
     "name": {
       "type": "string"
     },
     "slug": {
-      "type": "uid",
-      "targetField": "name"
+      "type": "uid"
     },
     "products": {
       "collection": "product",
-      "via": "categories",
+      "via": "subcategories",
       "dominant": true
     },
-    "subcategories": {
-      "collection": "subcategory",
-      "via": "category"
+    "category": {
+      "via": "subcategories",
+      "model": "category"
     }
   }
 }

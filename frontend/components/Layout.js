@@ -1,21 +1,19 @@
 import CategoryButtons from "./CategoryButtons";
 import Footer from "./Footer";
-import Navbar from "./Navbar";
+import Header from "./Header";
 
 const Layout = ({ children, categories }) => {
   return (
-    <div className="flex justify-center bg-gray-200">
-      <div className="max-w-screen-lg flex flex-col min-h-screen w-full">
-        <Navbar />
+    <div className="flex bg-gray-200">
+      <aside>
         <CategoryButtons categories={categories} />
+      </aside>
+      <div className="flex flex-col min-h-screen w-full">
+        <Header />
+
         <div className="flex-grow">{children}</div>
         <Footer />
       </div>
-      <div
-        hidden
-        id="snipcart"
-        data-api-key="ODhhNWUxOGEtNTk0OC00OTQwLWJkOWMtM2M1ZmNjODU1ZDJhNjM3MzMyNzM0NjM1OTMyNjcz"
-      ></div>
     </div>
   );
 };

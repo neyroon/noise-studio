@@ -1,0 +1,14 @@
+{
+  "collectionName": "components_custom_subs",
+  "info": {
+    "name": "sub",
+    "icon": "address-book",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "products": {
+      "collection": "product"
+    }
+  }
+}

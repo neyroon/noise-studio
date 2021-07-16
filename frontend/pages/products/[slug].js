@@ -1,13 +1,18 @@
+import { useQuery } from "@apollo/client";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { getProducts, getProduct } from "../../utils/api";
+import { getProductQuery } from "../../utils/api";
+import { initializeApollo } from "../../utils/apolloClient";
 import { getStrapiMedia } from "../../utils/medias";
 
-const ProductPage = ({ product }) => {
+const ProductPage = ({ slug }) => {
   const router = useRouter();
-  if (router.isFallback) {
-    return <div>Loading category...</div>;
-  }
+
+  const { loading, data, error } = useQuery(getProductQuery, {
+    variables: { slug },
+  });
+
+  const product = data.products[0];
 
   return (
     <div className="m-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-4 mt-8">
@@ -66,19 +71,16 @@ const ProductPage = ({ product }) => {
 
 export default ProductPage;
 
-export async function getStaticProps({ params }) {
-  const product = await getProduct(params.slug);
-  return { props: { product } };
-}
-
-export async function getStaticPaths() {
-  const products = await getProducts();
+export async function getServerSideProps({ params }) {
+  const client = initializeApollo();
+  const { loading, data, error } = await client.query({
+    query: getProductQuery,
+    variables: { slug: params.slug },
+  });
   return {
-    paths: products.map((_product) => {
-      return {
-        params: { slug: _product.slug },
-      };
-    }),
-    fallback: true,
+    props: {
+      initialApolloState: client.cache.extract(),
+      slug: params.slug,
+    },
   };
 }
