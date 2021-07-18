@@ -24,8 +24,8 @@
       "dominant": true
     },
     "subcategories": {
-      "collection": "subcategory",
-      "via": "category"
+      "via": "category",
+      "collection": "subcategory"
     }
   }
 }

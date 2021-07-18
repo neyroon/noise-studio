@@ -5,15 +5,28 @@
  * to customize this model
  */
 
+const updateParentCategoryProducts = async (subcategory) => {
+  const category = await strapi
+    .query("category")
+    .findOne({ id: subcategory.category.id });
+
+  for (const product of subcategory.products) {
+    if (!category.products.find((_product) => _product.id === product.id)) {
+      category.products.push(product);
+    }
+  }
+  await strapi.query("category").update({ id: category.id }, category);
+};
+
 module.exports = {
   lifecycles: {
-    afterCreate(result, data) {
-      console.log("result: ", result, "data: ", data);
+    async afterCreate(result) {
+      updateParentCategoryProducts(result);
     },
-    afterUpdate(result, params, data) {
-      console.log("result: ", result, "params: ", params, "data: ", data);
+    async afterUpdate(result) {
+      updateParentCategoryProducts(result);
     },
-    afterDelete(result, params) {
+    async afterDelete(result, params) {
       console.log("result: ", result, "params: ", params);
     },
   },
