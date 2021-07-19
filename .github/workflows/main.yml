@@ -3,11 +3,9 @@ on:
   push:
     branches:
       - "main"
-  workflow_dispatch:
 
 jobs:
   next-build:
-    if: ${{ github.event_name == 'workflow_dispatch' }}       # Run only if triggered manually
     runs-on: ubuntu-latest
     container: node:14-alpine          # Use node LTS container version, same as Dockerfile base image
     steps:
