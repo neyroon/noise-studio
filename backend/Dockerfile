@@ -8,9 +8,7 @@ COPY package.json package.json
 
 COPY yarn.lock yarn.lock
 
-RUN tree -L 2
-
-RUN ls
+RUN yarn install --production
 
 COPY favicon.ico favicon.ico
 
