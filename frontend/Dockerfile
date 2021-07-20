@@ -5,7 +5,7 @@ ENV NODE_ENV production
 WORKDIR /frontend
 
 COPY package.json package.json
-COPY package-lock.json package-lock.json
+COPY yarn.lock yarn.lock
 
 RUN yarn install --production
 
