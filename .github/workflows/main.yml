@@ -11,12 +11,16 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - run: yarn install --frozen-lockfile
+      - name: Install next dependencies
+        run: yarn install --frozen-lockfile
         working-directory: ./frontend
-      - run: yarn install --frozen-lockfile
+      - name: Install strapi dependencies
+        run: yarn install --frozen-lockfile
         working-directory: ./backend
-      - run: yarn install
-      - run: yarn build
+      - name: Install common dependencies
+        run: yarn install
+      - name: Build frontend and backend
+        run: yarn build
         env:
           DATABASE_HOST: ${{secrets.DATABASE_HOST}}
           DATABASE_PORT: ${{secrets.DATABASE_PORT}}
@@ -66,12 +70,21 @@ jobs:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
           password: ${{ secrets.CR_PAT }}
-      - name: Pull image to use as a cache
-        run: docker pull ghcr.io/$GITHUB_REPOSITORY:latest || exit 0
+      - name: LOG $GITHUB_REPOSITORY
+        run: echo $GITHUB_REPOSITORY
+      - name: Pull images to use as a cache
+        run: docker pull ghcr.io/neyroon/noise-studio-frontend:latest || exit 0
+        run: docker pull ghcr.io/neyroon/noise-studio-backend:latest || exit 0
       - name: Build Docker image
-        run: docker build . --cache-from ghcr.io/$GITHUB_REPOSITORY:latest --tag ghcr.io/$GITHUB_REPOSITORY:latest
+        run: docker build . --cache-from ghcr.io/neyroon/noise-studio-frontend:latest --tag ghcr.io/neyroon/noise-studio-frontend:latest
+        working-directory: ./frontend
+        run: docker build . --cache-from ghcr.io/neyroon/noise-studio-backend:latest --tag ghcr.io/neyroon/noise-studio-backend:latest
+        working-directory: ./backend
       - name: Push the image to GitHub Container Registry
         run: docker push ghcr.io/$GITHUB_REPOSITORY:latest
+        working-directory: ./frontend
+        run: docker push ghcr.io/$GITHUB_REPOSITORY:latest
+        working-directory: ./backend
       - name: VPS - pull image and run app containters
         uses: appleboy/ssh-action@master
         env:
