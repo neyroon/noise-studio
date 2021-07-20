@@ -14,15 +14,15 @@ COPY favicon.ico favicon.ico
 
 COPY public/robots.txt public/
 
-COPY extensions/ extensions/
+COPY extensions extensions
 
-COPY exports/ exports/
+COPY exports exports
 
-COPY api/ api/
+COPY api api
 
-COPY components/ components/
+COPY components components
 
-COPY config/ config/
+COPY config config
 
 EXPOSE 1337
 
