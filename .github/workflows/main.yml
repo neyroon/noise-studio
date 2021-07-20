@@ -107,16 +107,16 @@ jobs:
             echo $CR_PAT | docker login ghcr.io -u neyroon --password-stdin
             docker pull ghcr.io/neyroon/noise-studio-frontend:latest
             docker pull ghcr.io/neyroon/noise-studio-backend:latest
-            export DATABASE_HOST = $DATABASE_HOST
-            export DATABASE_PORT = $DATABASE_PORT
-            export DATABASE_NAME = $DATABASE_NAME
-            export DATABASE_USERNAME = $DATABASE_USERNAME
-            export DATABASE_PASSWORD = $DATABASE_PASSWORD
-            export ADMIN_JWT_SECRET = $ADMIN_JWT_SECRET
-            export NEXT_PUBLIC_STRAPI_API_URL = $NEXT_PUBLIC_STRAPI_API_URL
-            export PG_USER = $PG_USER
-            export PG_PASS = $PG_PASS
-            export PG_DB = $PG_DB
+            export DATABASE_HOST=$DATABASE_HOST
+            export DATABASE_PORT=$DATABASE_PORT
+            export DATABASE_NAME=$DATABASE_NAME
+            export DATABASE_USERNAME=$DATABASE_USERNAME
+            export DATABASE_PASSWORD=$DATABASE_PASSWORD
+            export ADMIN_JWT_SECRET=$ADMIN_JWT_SECRET
+            export NEXT_PUBLIC_STRAPI_API_URL=$NEXT_PUBLIC_STRAPI_API_URL
+            export PG_USER=$PG_USER
+            export PG_PASS=$PG_PASS
+            export PG_DB=$PG_DB
             cd ../srv
             docker-compose pull
             docker-compose up -d --no-deps
