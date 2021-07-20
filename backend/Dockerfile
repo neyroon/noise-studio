@@ -9,7 +9,7 @@ COPY yarn.lock yarn.lock
 
 RUN yarn install --production
 
-COPY .config .config
+COPY .cache .cache
 COPY build build
 
 EXPOSE 1337
