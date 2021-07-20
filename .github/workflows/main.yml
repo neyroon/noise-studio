@@ -66,13 +66,21 @@ jobs:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
           password: ${{ secrets.CR_PAT }}
-      - name: Build and Push Docker Images
-        run: |
-          export CURRENT_BRANCH=${GITHUB_REF#refs/heads/}
-          export TAG=$([[ $CURRENT_BRANCH == "main" ]] && echo "latest" || echo $CURRENT_BRANCH)
-          export GITHUB_REF_IMAGE=ghcr.io/$GITHUB_REPOSITORY:$GITHUB_SHA
-          export GITHUB_BRANCH_IMAGE=ghcr.io/$GITHUB_REPOSITORY:$TAG
-          docker build -t $GCR_IMAGE -t $GITHUB_REF_IMAGE -t $GITHUB_BRANCH_IMAGE .
-          echo "Pushing Image to GitHub Container Registry"
-          docker push $GITHUB_REF_IMAGE
-          docker push $GITHUB_BRANCH_IMAGE
+      - name: Pull image to use as a cache
+        run: docker pull ghcr.io/$GITHUB_REPOSITORY:latest || exit 0
+      - name: Build Docker image
+        run: docker build . --cache-from ghcr.io/$GITHUB_REPOSITORY:latest --tag ghcr.io/$GITHUB_REPOSITORY:latest
+        name: Push the image to GitHub Container Registry
+        run: docker push ghcr.io/$GITHUB_REPOSITORY:latest
+      - name: VPS - pull image and run app containters
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{secrets.VPS_HOST}}
+          username: ${{secrets.VPS_USERNAME}}
+          password: ${{ secrets.VPS_PASSWORD }}
+          script: |
+            echo $CR_PAT | docker login ghcr.io -u neyroon --password-stdin
+            docker-compose pull app
+            docker-compose up -d --no-deps
+          env:
+            CR_PAT: ${{secrets.CR_PAT}}
