@@ -60,10 +60,12 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: build-frontend
+          path: frontend
       - name: Download Strapi build
         uses: actions/download-artifact@v2
         with:
           name: build-backend
+          path: backend
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v1
         with:
@@ -71,7 +73,7 @@ jobs:
           username: ${{ github.repository_owner }}
           password: ${{ secrets.CR_PAT }}
       - name: LOG $GITHUB_REPOSITORY
-        run: echo $GITHUB_REPOSITORY
+        run: tree -L 2
       - name: Pull frontend image to use as a cache
         run: docker pull ghcr.io/neyroon/noise-studio-frontend:latest || exit 0
       - name: Pull backend image to use as a cache
