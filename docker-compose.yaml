@@ -6,7 +6,8 @@ services:
       NEXT_PUBLIC_STRAPI_API_URL: ${NEXT_PUBLIC_STRAPI_API_URL}
     ports:
       - "3000:3000"
-    depends_on: strapi
+    depends_on:
+      - strapi
     restart: unless-stopped
     volumes:
       - ./app:/srv/app
@@ -22,7 +23,8 @@ services:
       ADMIN_JWT_SECRET: ${ADMIN_JWT_SECRET}
     ports:
       - "1337:1337"
-    depends_on: postgres
+    depends_on:
+      - postgres
     restart: unless-stopped
     volumes:
       - ./app:/srv/app
