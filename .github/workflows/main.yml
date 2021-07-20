@@ -72,8 +72,9 @@ jobs:
           password: ${{ secrets.CR_PAT }}
       - name: LOG $GITHUB_REPOSITORY
         run: echo $GITHUB_REPOSITORY
-      - name: Pull images to use as a cache
+      - name: Pull frontend image to use as a cache
         run: docker pull ghcr.io/neyroon/noise-studio-frontend:latest || exit 0
+      - name: Pull backend image to use as a cache
         run: docker pull ghcr.io/neyroon/noise-studio-backend:latest || exit 0
       - name: Build frontend docker image
         run: docker build . --cache-from ghcr.io/neyroon/noise-studio-frontend:latest --tag ghcr.io/neyroon/noise-studio-frontend:latest
