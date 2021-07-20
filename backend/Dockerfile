@@ -17,8 +17,6 @@ COPY public/robots.txt public/
 
 COPY extensions extensions
 
-COPY exports exports
-
 COPY api api
 
 COPY components components
