@@ -4,13 +4,13 @@ ENV NODE_ENV production
 
 WORKDIR /backend
 
-COPY package.json .
+COPY package.json package.json
 
-COPY yarn.lock .
+COPY yarn.lock yarn.lock
 
 RUN yarn install –frozen-lockfile
 
-COPY favicon.ico .
+COPY favicon.ico favicon.ico
 
 COPY public/robots.txt public/
 
