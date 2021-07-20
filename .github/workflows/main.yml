@@ -15,6 +15,7 @@ jobs:
         working-directory: ./frontend
       - run: yarn install --frozen-lockfile
         working-directory: ./backend
+      - run: yarn install
       - run: yarn build
         env:
           DATABASE_HOST: ${{secrets.DATABASE_HOST}}

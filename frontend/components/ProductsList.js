@@ -4,6 +4,11 @@ import { useRef, useState } from "react";
 import { getStrapiMedia } from "../utils/medias";
 
 const ProductsList = ({ products, categoryName, needFilters = true }) => {
+  const [orderTitle, setOrderTitle] = useState(false);
+  const [orderPrice, setOrderPrice] = useState(false);
+  const router = useRouter();
+  const currentURL = useRef(router.asPath);
+
   if (!products) return "Продукты отсутствуют";
   const productsList = (
     <div className="mx-6 grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 ">
@@ -36,11 +41,6 @@ const ProductsList = ({ products, categoryName, needFilters = true }) => {
     </div>
   );
   if (!needFilters) return productsList;
-
-  const [orderTitle, setOrderTitle] = useState(false);
-  const [orderPrice, setOrderPrice] = useState(false);
-  const router = useRouter();
-  const currentURL = useRef(router.asPath);
 
   return (
     <>
