@@ -1,4 +1,4 @@
-version: "3.8"
+version: "3.9"
 services:
   next:
     image: ghcr.io/neyroon/noise-studio-frontend:latest
