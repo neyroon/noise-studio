@@ -82,5 +82,5 @@ jobs:
             echo $CR_PAT | docker login ghcr.io -u neyroon --password-stdin
             docker-compose pull app
             docker-compose up -d --no-deps
-          env:
+          envs:
             CR_PAT: ${{secrets.CR_PAT}}
