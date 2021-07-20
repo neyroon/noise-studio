@@ -8,6 +8,8 @@ COPY package.json package.json
 
 COPY yarn.lock yarn.lock
 
+RUN tree -L 2
+
 RUN yarn install –frozen-lockfile
 
 COPY favicon.ico favicon.ico
