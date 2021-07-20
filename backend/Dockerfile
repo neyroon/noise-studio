@@ -5,10 +5,11 @@ ENV NODE_ENV production
 WORKDIR /backend
 
 COPY package.json package.json
-
 COPY yarn.lock yarn.lock
 
 RUN yarn install --production
+
+RUN ls
 
 COPY favicon.ico favicon.ico
 
