@@ -74,13 +74,14 @@ jobs:
         run: docker push ghcr.io/$GITHUB_REPOSITORY:latest
       - name: VPS - pull image and run app containters
         uses: appleboy/ssh-action@master
+        env:
+          CR_PAT: ${{secrets.CR_PAT}}
         with:
           host: ${{secrets.VPS_HOST}}
           username: ${{secrets.VPS_USERNAME}}
           password: ${{ secrets.VPS_PASSWORD }}
+          envs: CR_PAT
           script: |
             echo $CR_PAT | docker login ghcr.io -u neyroon --password-stdin
             docker-compose pull app
             docker-compose up -d --no-deps
-          envs:
-            CR_PAT: ${{secrets.CR_PAT}}
