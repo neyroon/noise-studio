@@ -12,6 +12,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2 # Checkout the code
       - run: yarn install --frozen-lockfile
+      - run: ls
+      - run: yarn build
         env:
           DATABASE_HOST: ${{secrets.DATABASE_HOST}}
           DATABASE_PORT: ${{secrets.DATABASE_PORT}}
