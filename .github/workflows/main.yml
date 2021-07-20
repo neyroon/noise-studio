@@ -75,14 +75,16 @@ jobs:
       - name: Pull images to use as a cache
         run: docker pull ghcr.io/neyroon/noise-studio-frontend:latest || exit 0
         run: docker pull ghcr.io/neyroon/noise-studio-backend:latest || exit 0
-      - name: Build Docker image
+      - name: Build frontend docker image
         run: docker build . --cache-from ghcr.io/neyroon/noise-studio-frontend:latest --tag ghcr.io/neyroon/noise-studio-frontend:latest
         working-directory: ./frontend
+      - name: Build backend docker image
         run: docker build . --cache-from ghcr.io/neyroon/noise-studio-backend:latest --tag ghcr.io/neyroon/noise-studio-backend:latest
         working-directory: ./backend
-      - name: Push the image to GitHub Container Registry
+      - name: Push the frontend image to GitHub Container Registry
         run: docker push ghcr.io/$GITHUB_REPOSITORY:latest
         working-directory: ./frontend
+      - name: Push the backend image to GitHub Container Registry
         run: docker push ghcr.io/$GITHUB_REPOSITORY:latest
         working-directory: ./backend
       - name: VPS - pull image and run app containters
