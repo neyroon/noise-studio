@@ -10,7 +10,7 @@ COPY yarn.lock yarn.lock
 
 RUN tree -L 2
 
-RUN yarn install –frozen-lockfile
+RUN ls
 
 COPY favicon.ico favicon.ico
 
