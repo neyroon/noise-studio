@@ -9,19 +9,8 @@ COPY yarn.lock yarn.lock
 
 RUN yarn install --production
 
-RUN ls
-
-COPY favicon.ico favicon.ico
-
-COPY public/robots.txt public/
-
-COPY extensions extensions
-
-COPY api api
-
-COPY components components
-
-COPY config config
+COPY .config .config
+COPY build build
 
 EXPOSE 1337
 

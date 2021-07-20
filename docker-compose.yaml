@@ -1,7 +1,7 @@
 version: "3.8"
 services:
   next:
-    build: "./frontend"
+    image: ghcr.io/neyroon/noise-studio-frontend:latest
     environment:
       NEXT_PUBLIC_STRAPI_API_URL: ${NEXT_PUBLIC_STRAPI_API_URL}
     ports:
@@ -12,7 +12,7 @@ services:
       - ./app:/srv/app
 
   strapi:
-    build: "./backend"
+    image: ghcr.io/neyroon/noise-studio-backend:latest
     environment:
       DATABASE_HOST: ${DATABASE_HOST}
       DATABASE_PORT: ${DATABASE_PORT}
