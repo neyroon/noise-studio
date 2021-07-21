@@ -95,7 +95,7 @@ jobs:
             export DATABASE_PASSWORD=$DATABASE_PASSWORD
             export ADMIN_JWT_SECRET=$ADMIN_JWT_SECRET
             export NEXT_PUBLIC_STRAPI_API_URL=$NEXT_PUBLIC_STRAPI_API_URL
-            export DATABASE_SSL = $DATABASE_SSL
+            export DATABASE_SSL=$DATABASE_SSL
             export NODE_ENV=$NODE_ENV
             cd ../srv
             docker-compose pull
