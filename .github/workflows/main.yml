@@ -17,63 +17,11 @@ env:
   DATABASE_PASSWORD: ${{secrets.DATABASE_PASSWORD}}
   ADMIN_JWT_SECRET: ${{secrets.ADMIN_JWT_SECRET}}
   NEXT_PUBLIC_STRAPI_API_URL: ${{secrets.NEXT_PUBLIC_STRAPI_API_URL}}
+  DATABASE_SSL: ${{secrets.DATABASE_SSL}}
   NODE_ENV: production
 
 jobs:
-  # next-build:
-  #   runs-on: ubuntu-latest
-  #   container: node:14-alpine
-  #   defaults:
-  #     run:
-  #       working-directory: ./frontend
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@v2
-  #     - name: CHECK VARIABLES
-  #       run: printenv
-  #     - name: Install next dependencies
-  #       run: yarn install --frozen-lockfile
-  #     - name: Build frontend
-  #       run: yarn build
-  #     - name: Upload Next build
-  #       uses: actions/upload-artifact@v2
-  #       with:
-  #         name: build-frontend
-  #         path: |
-  #           ./frontend/.next
-  #           ./frontend/public
-  #         retention-days: 7
-
-  # strapi-build:
-  #   runs-on: ubuntu-latest
-  #   container: strapi/base:14-alpine
-  #   defaults:
-  #     run:
-  #       working-directory: ./backend
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@v2
-  #     - name: Install strapi dependencies
-  #       run: yarn install --frozen-lockfile
-  #     - name: Build backend
-  #       run: yarn build
-  #     - name: Upload Strapi build
-  #       uses: actions/upload-artifact@v2
-  #       with:
-  #         name: build-backend
-  #         path: |
-  #           ./backend/.cache
-  #           ./backend/build
-  #           ./backend/favicon.ico
-  #           ./backend/api
-  #           ./backend/components
-  #           ./backend/config
-  #           ./backend/extensions
-  #           ./backend/public/robots.txt
-  #         retention-days: 7
-
   docker-push-next:
-    # needs: next-build
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -81,11 +29,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      # - name: Download Next build
-      #   uses: actions/download-artifact@v2
-      #   with:
-      #     name: build-frontend
-      #     path: frontend
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v1
         with:
@@ -99,7 +42,6 @@ jobs:
       - name: Push the frontend image to GitHub Container Registry
         run: docker push ghcr.io/neyroon/noise-studio-frontend:latest
   docker-push-strapi:
-    # needs: strapi-build
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -107,11 +49,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      # - name: Download Strapi build
-      #   uses: actions/download-artifact@v2
-      #   with:
-      #     name: build-backend
-      #     path: backend
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v1
         with:
@@ -145,7 +82,7 @@ jobs:
           host: ${{secrets.VPS_HOST}}
           username: ${{secrets.VPS_USERNAME}}
           password: ${{ secrets.VPS_PASSWORD }}
-          envs: CR_PAT,DATABASE_HOST,DATABASE_PORT,DATABASE_NAME,DATABASE_PASSWORD,ADMIN_JWT_SECRET,NEXT_PUBLIC_STRAPI_API_URL,NODE_ENV
+          envs: CR_PAT,DATABASE_HOST,DATABASE_PORT,DATABASE_NAME,DATABASE_PASSWORD,ADMIN_JWT_SECRET,NEXT_PUBLIC_STRAPI_API_URL,NODE_ENV,DATABASE_SSL
           script: |
             echo $CR_PAT | docker login ghcr.io -u neyroon --password-stdin
             docker pull ghcr.io/neyroon/noise-studio-frontend:latest
@@ -157,6 +94,7 @@ jobs:
             export DATABASE_PASSWORD=$DATABASE_PASSWORD
             export ADMIN_JWT_SECRET=$ADMIN_JWT_SECRET
             export NEXT_PUBLIC_STRAPI_API_URL=$NEXT_PUBLIC_STRAPI_API_URL
+            export DATABASE_SSL = $DATABASE_SSL
             export NODE_ENV=$NODE_ENV
             cd ../srv
             docker-compose pull
