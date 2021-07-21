@@ -82,7 +82,17 @@ jobs:
           host: ${{secrets.VPS_HOST}}
           username: ${{secrets.VPS_USERNAME}}
           password: ${{ secrets.VPS_PASSWORD }}
-          envs: CR_PAT,DATABASE_HOST,DATABASE_PORT,DATABASE_NAME,DATABASE_PASSWORD,ADMIN_JWT_SECRET,NEXT_PUBLIC_STRAPI_API_URL,NODE_ENV,DATABASE_SSL
+          envs: |
+            CR_PAT,
+            DATABASE_HOST,
+            DATABASE_PORT,
+            DATABASE_NAME,
+            DATABASE_USERNAME,
+            DATABASE_PASSWORD,
+            ADMIN_JWT_SECRET,
+            NEXT_PUBLIC_STRAPI_API_URL,
+            NODE_ENV,
+            DATABASE_SSL
           script: |
             echo $CR_PAT | docker login ghcr.io -u neyroon --password-stdin
             docker image prune -f
