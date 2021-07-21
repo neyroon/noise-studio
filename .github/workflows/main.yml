@@ -42,8 +42,8 @@ jobs:
         with:
           name: build-frontend
           path: |
-            ./.next
-            ./public
+            ./frontend/.next
+            ./frontend/public
           retention-days: 7
 
   strapi-build:
@@ -64,8 +64,8 @@ jobs:
         with:
           name: build-backend
           path: |
-            ./.cache
-            ./build
+            ./backend/.cache
+            ./backend/build
           retention-days: 7
 
   docker-push-next:
