@@ -17,9 +17,6 @@ env:
   DATABASE_PASSWORD: ${{secrets.DATABASE_PASSWORD}}
   ADMIN_JWT_SECRET: ${{secrets.ADMIN_JWT_SECRET}}
   NEXT_PUBLIC_STRAPI_API_URL: ${{secrets.NEXT_PUBLIC_STRAPI_API_URL}}
-  PG_USER: ${{secrets.PG_USER}}
-  PG_PASS: ${{secrets.PG_PASS}}
-  PG_DB: ${{secrets.PG_DB}}
 
 jobs:
   next-build:
@@ -130,7 +127,7 @@ jobs:
           host: ${{secrets.VPS_HOST}}
           username: ${{secrets.VPS_USERNAME}}
           password: ${{ secrets.VPS_PASSWORD }}
-          source: "docker-compose.yml"
+          source: "./docker-compose.yml"
           target: "./srv"
           overwrite: true
       - name: pull image and run app containters
@@ -153,7 +150,6 @@ jobs:
             export PG_USER=$PG_USER
             export PG_PASS=$PG_PASS
             export PG_DB=$PG_DB
-            printenv
             cd ../srv
             docker-compose pull
             docker-compose up -d --no-deps
