@@ -20,110 +20,110 @@ env:
   NODE_ENV: production
 
 jobs:
-  next-build:
-    runs-on: ubuntu-latest
-    container: node:14-alpine
-    defaults:
-      run:
-        working-directory: ./frontend
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: CHECK VARIABLES
-        run: printenv
-      - name: Install next dependencies
-        run: yarn install --frozen-lockfile
-      - name: Build frontend
-        run: yarn build
-      - name: Upload Next build
-        uses: actions/upload-artifact@v2
-        with:
-          name: build-frontend
-          path: |
-            ./frontend/.next
-            ./frontend/public
-          retention-days: 7
+  # next-build:
+  #   runs-on: ubuntu-latest
+  #   container: node:14-alpine
+  #   defaults:
+  #     run:
+  #       working-directory: ./frontend
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v2
+  #     - name: CHECK VARIABLES
+  #       run: printenv
+  #     - name: Install next dependencies
+  #       run: yarn install --frozen-lockfile
+  #     - name: Build frontend
+  #       run: yarn build
+  #     - name: Upload Next build
+  #       uses: actions/upload-artifact@v2
+  #       with:
+  #         name: build-frontend
+  #         path: |
+  #           ./frontend/.next
+  #           ./frontend/public
+  #         retention-days: 7
 
-  strapi-build:
-    runs-on: ubuntu-latest
-    container: strapi/base:14-alpine
-    defaults:
-      run:
-        working-directory: ./backend
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: Install strapi dependencies
-        run: yarn install --frozen-lockfile
-      - name: Build backend
-        run: yarn build
-      - name: Upload Strapi build
-        uses: actions/upload-artifact@v2
-        with:
-          name: build-backend
-          path: |
-            ./backend/.cache
-            ./backend/build
-          retention-days: 7
+  # strapi-build:
+  #   runs-on: ubuntu-latest
+  #   container: strapi/base:14-alpine
+  #   defaults:
+  #     run:
+  #       working-directory: ./backend
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v2
+  #     - name: Install strapi dependencies
+  #       run: yarn install --frozen-lockfile
+  #     - name: Build backend
+  #       run: yarn build
+  #     - name: Upload Strapi build
+  #       uses: actions/upload-artifact@v2
+  #       with:
+  #         name: build-backend
+  #         path: |
+  #           ./backend/.cache
+  #           ./backend/build
+  #         retention-days: 7
 
-  docker-push-next:
-    needs: next-build
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./frontend
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: Download Next build
-        uses: actions/download-artifact@v2
-        with:
-          name: build-frontend
-          path: frontend
-      - name: Login to GitHub Container Registry
-        uses: docker/login-action@v1
-        with:
-          registry: ghcr.io
-          username: ${{ github.repository_owner }}
-          password: ${{ secrets.CR_PAT }}
-      - name: Pull frontend image to use as a cache
-        run: docker pull ghcr.io/neyroon/noise-studio-frontend:latest || exit 0
-      - name: Build frontend docker image
-        run: docker build . --cache-from ghcr.io/neyroon/noise-studio-frontend:latest --tag ghcr.io/neyroon/noise-studio-frontend:latest
-      - name: Push the frontend image to GitHub Container Registry
-        run: docker push ghcr.io/neyroon/noise-studio-frontend:latest
-  docker-push-strapi:
-    needs: strapi-build
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./backend
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: Download Strapi build
-        uses: actions/download-artifact@v2
-        with:
-          name: build-backend
-          path: backend
-      - name: Login to GitHub Container Registry
-        uses: docker/login-action@v1
-        with:
-          registry: ghcr.io
-          username: ${{ github.repository_owner }}
-          password: ${{ secrets.CR_PAT }}
-      - name: Pull backend image to use as a cache
-        run: docker pull ghcr.io/neyroon/noise-studio-backend:latest || exit 0
-      - name: Build backend docker image
-        run: docker build . --cache-from ghcr.io/neyroon/noise-studio-backend:latest --tag ghcr.io/neyroon/noise-studio-backend:latest
-      - name: Push backend image to GitHub Container Registry
-        run: docker push ghcr.io/neyroon/noise-studio-backend:latest
+  # docker-push-next:
+  #   needs: next-build
+  #   runs-on: ubuntu-latest
+  #   defaults:
+  #     run:
+  #       working-directory: ./frontend
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v2
+  #     - name: Download Next build
+  #       uses: actions/download-artifact@v2
+  #       with:
+  #         name: build-frontend
+  #         path: frontend
+  #     - name: Login to GitHub Container Registry
+  #       uses: docker/login-action@v1
+  #       with:
+  #         registry: ghcr.io
+  #         username: ${{ github.repository_owner }}
+  #         password: ${{ secrets.CR_PAT }}
+  #     - name: Pull frontend image to use as a cache
+  #       run: docker pull ghcr.io/neyroon/noise-studio-frontend:latest || exit 0
+  #     - name: Build frontend docker image
+  #       run: docker build . --cache-from ghcr.io/neyroon/noise-studio-frontend:latest --tag ghcr.io/neyroon/noise-studio-frontend:latest
+  #     - name: Push the frontend image to GitHub Container Registry
+  #       run: docker push ghcr.io/neyroon/noise-studio-frontend:latest
+  # docker-push-strapi:
+  #   needs: strapi-build
+  #   runs-on: ubuntu-latest
+  #   defaults:
+  #     run:
+  #       working-directory: ./backend
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v2
+  #     - name: Download Strapi build
+  #       uses: actions/download-artifact@v2
+  #       with:
+  #         name: build-backend
+  #         path: backend
+  #     - name: Login to GitHub Container Registry
+  #       uses: docker/login-action@v1
+  #       with:
+  #         registry: ghcr.io
+  #         username: ${{ github.repository_owner }}
+  #         password: ${{ secrets.CR_PAT }}
+  #     - name: Pull backend image to use as a cache
+  #       run: docker pull ghcr.io/neyroon/noise-studio-backend:latest || exit 0
+  #     - name: Build backend docker image
+  #       run: docker build . --cache-from ghcr.io/neyroon/noise-studio-backend:latest --tag ghcr.io/neyroon/noise-studio-backend:latest
+  #     - name: Push backend image to GitHub Container Registry
+  #       run: docker push ghcr.io/neyroon/noise-studio-backend:latest
   vps-update-pull-run:
     needs: [docker-push-next, docker-push-strapi]
     runs-on: ubuntu-latest
     steps:
-      - name: tar docker-compose
-        run: tar -cvf docker-compose.tar docker-compose.yml
+      - name: check tree
+        run: tree -L 2
       - name: update docker-compose file
         uses: appleboy/scp-action@master
         with:
