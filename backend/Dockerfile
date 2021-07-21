@@ -18,4 +18,4 @@ RUN yarn build
 
 EXPOSE 1337
 
-CMD yarn start --production=false
+CMD yarn start
