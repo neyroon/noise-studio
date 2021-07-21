@@ -6,7 +6,13 @@ const Header = () => {
     <div className="flex justify-between mt-4">
       <Link href="/">
         <a>
-          <Image src="/strapi.png" alt="home" className="logo" />
+          <Image
+            src="/strapi.png"
+            alt="home"
+            className="logo"
+            width="250"
+            height="150"
+          />
         </a>
       </Link>
     </div>
