@@ -122,6 +122,8 @@ jobs:
     # needs: [docker-push-next, docker-push-strapi]
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v2
       - name: check tree
         run: tree -L 2
       - name: update docker-compose file
@@ -130,7 +132,7 @@ jobs:
           host: ${{secrets.VPS_HOST}}
           username: ${{secrets.VPS_USERNAME}}
           password: ${{ secrets.VPS_PASSWORD }}
-          source: "docker-compose.tar"
+          source: "docker-compose.yml"
           target: "../srv/"
           overwrite: true
       - name: pull image and run app containters
