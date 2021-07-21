@@ -9,7 +9,11 @@ COPY yarn.lock yarn.lock
 
 RUN yarn install --production
 
+COPY components components
 COPY public public
+COPY pages pages
+COPY styles styles
+COPY utils utils
 
 RUN yarn build
 
