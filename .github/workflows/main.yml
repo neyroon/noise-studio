@@ -119,7 +119,7 @@ jobs:
   #     - name: Push backend image to GitHub Container Registry
   #       run: docker push ghcr.io/neyroon/noise-studio-backend:latest
   vps-update-pull-run:
-    needs: [docker-push-next, docker-push-strapi]
+    # needs: [docker-push-next, docker-push-strapi]
     runs-on: ubuntu-latest
     steps:
       - name: check tree
