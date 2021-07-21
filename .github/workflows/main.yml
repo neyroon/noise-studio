@@ -122,14 +122,16 @@ jobs:
     needs: [docker-push-next, docker-push-strapi]
     runs-on: ubuntu-latest
     steps:
+      - name: tar docker-compose
+        run: tar -cvf docker-compose.tar docker-compose.yml
       - name: update docker-compose file
         uses: appleboy/scp-action@master
         with:
           host: ${{secrets.VPS_HOST}}
           username: ${{secrets.VPS_USERNAME}}
           password: ${{ secrets.VPS_PASSWORD }}
-          source: "./docker-compose.yml"
-          target: "./srv"
+          source: "docker-compose.tar"
+          target: "../srv/"
           overwrite: true
       - name: pull image and run app containters
         uses: appleboy/ssh-action@master
@@ -151,6 +153,7 @@ jobs:
             export PG_USER=$PG_USER
             export PG_PASS=$PG_PASS
             export PG_DB=$PG_DB
+            export NODE_ENV=$NODE_ENV
             cd ../srv
             docker-compose pull
             docker-compose up -d --no-deps
