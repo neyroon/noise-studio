@@ -32,7 +32,7 @@ jobs:
       - name: CHECK VARIABLES
         run: printenv
       - name: Install next dependencies
-        run: yarn install --production --frozen-lockfile
+        run: yarn install --frozen-lockfile
       - name: Build frontend
         run: yarn build
       - name: Upload Next build
@@ -54,7 +54,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Install strapi dependencies
-        run: yarn install --production --frozen-lockfile
+        run: yarn install --frozen-lockfile
       - name: Build backend
         run: yarn build
       - name: Upload Strapi build
@@ -139,6 +139,7 @@ jobs:
           host: ${{secrets.VPS_HOST}}
           username: ${{secrets.VPS_USERNAME}}
           password: ${{ secrets.VPS_PASSWORD }}
+          envs: CR_PAT,DATABASE_HOST,DATABASE_PORT,DATABASE_NAME,DATABASE_PASSWORD,ADMIN_JWT_SECRET,NEXT_PUBLIC_STRAPI_API_URL,NODE_ENV
           script: |
             echo $CR_PAT | docker login ghcr.io -u neyroon --password-stdin
             docker pull ghcr.io/neyroon/noise-studio-frontend:latest
