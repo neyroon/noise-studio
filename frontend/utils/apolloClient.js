@@ -7,7 +7,10 @@ function createApolloClient() {
   return new ApolloClient({
     ssrMode: typeof window === "undefined", // set to true for SSR
     link: new HttpLink({
-      uri: `${"http://localhost:1337" + "/graphql"}`,
+      uri: `${
+        (process.env.NEXT_PUBLIC_STRAPI_API_URL || "http://localhost:1337") +
+        "/graphql"
+      }`,
     }),
     cache: new InMemoryCache(),
   });
