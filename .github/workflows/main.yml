@@ -20,54 +20,60 @@ env:
   NODE_ENV: production
 
 jobs:
-  next-build:
-    runs-on: ubuntu-latest
-    container: node:14-alpine
-    defaults:
-      run:
-        working-directory: ./frontend
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: CHECK VARIABLES
-        run: printenv
-      - name: Install next dependencies
-        run: yarn install --frozen-lockfile
-      - name: Build frontend
-        run: yarn build
-      - name: Upload Next build
-        uses: actions/upload-artifact@v2
-        with:
-          name: build-frontend
-          path: |
-            ./frontend/.next
-            ./frontend/public
-          retention-days: 7
+  # next-build:
+  #   runs-on: ubuntu-latest
+  #   container: node:14-alpine
+  #   defaults:
+  #     run:
+  #       working-directory: ./frontend
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v2
+  #     - name: CHECK VARIABLES
+  #       run: printenv
+  #     - name: Install next dependencies
+  #       run: yarn install --frozen-lockfile
+  #     - name: Build frontend
+  #       run: yarn build
+  #     - name: Upload Next build
+  #       uses: actions/upload-artifact@v2
+  #       with:
+  #         name: build-frontend
+  #         path: |
+  #           ./frontend/.next
+  #           ./frontend/public
+  #         retention-days: 7
 
-  strapi-build:
-    runs-on: ubuntu-latest
-    container: strapi/base:14-alpine
-    defaults:
-      run:
-        working-directory: ./backend
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: Install strapi dependencies
-        run: yarn install --frozen-lockfile
-      - name: Build backend
-        run: yarn build
-      - name: Upload Strapi build
-        uses: actions/upload-artifact@v2
-        with:
-          name: build-backend
-          path: |
-            ./backend/.cache
-            ./backend/build
-          retention-days: 7
+  # strapi-build:
+  #   runs-on: ubuntu-latest
+  #   container: strapi/base:14-alpine
+  #   defaults:
+  #     run:
+  #       working-directory: ./backend
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v2
+  #     - name: Install strapi dependencies
+  #       run: yarn install --frozen-lockfile
+  #     - name: Build backend
+  #       run: yarn build
+  #     - name: Upload Strapi build
+  #       uses: actions/upload-artifact@v2
+  #       with:
+  #         name: build-backend
+  #         path: |
+  #           ./backend/.cache
+  #           ./backend/build
+  #           ./backend/favicon.ico
+  #           ./backend/api
+  #           ./backend/components
+  #           ./backend/config
+  #           ./backend/extensions
+  #           ./backend/public/robots.txt
+  #         retention-days: 7
 
   docker-push-next:
-    needs: next-build
+    # needs: next-build
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -75,11 +81,11 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: Download Next build
-        uses: actions/download-artifact@v2
-        with:
-          name: build-frontend
-          path: frontend
+      # - name: Download Next build
+      #   uses: actions/download-artifact@v2
+      #   with:
+      #     name: build-frontend
+      #     path: frontend
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v1
         with:
@@ -93,7 +99,7 @@ jobs:
       - name: Push the frontend image to GitHub Container Registry
         run: docker push ghcr.io/neyroon/noise-studio-frontend:latest
   docker-push-strapi:
-    needs: strapi-build
+    # needs: strapi-build
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -101,11 +107,11 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: Download Strapi build
-        uses: actions/download-artifact@v2
-        with:
-          name: build-backend
-          path: backend
+      # - name: Download Strapi build
+      #   uses: actions/download-artifact@v2
+      #   with:
+      #     name: build-backend
+      #     path: backend
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v1
         with:
@@ -131,7 +137,7 @@ jobs:
           username: ${{secrets.VPS_USERNAME}}
           password: ${{ secrets.VPS_PASSWORD }}
           source: "docker-compose.yml"
-          target: "../srv/"
+          target: "../srv/."
           overwrite: true
       - name: pull image and run app containters
         uses: appleboy/ssh-action@master
