@@ -13,6 +13,9 @@ module.exports = ({ env }) => ({
         ssl: env.bool("DATABASE_SSL", false),
         schema: "public",
       },
+      options: {
+        autoMigration: true,
+      },
     },
   },
 });
