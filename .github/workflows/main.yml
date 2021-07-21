@@ -137,7 +137,7 @@ jobs:
           username: ${{secrets.VPS_USERNAME}}
           password: ${{ secrets.VPS_PASSWORD }}
           source: "docker-compose.yml"
-          target: "../srv/"
+          target: "../srv"
           overwrite: true
       - name: pull image and run app containters
         uses: appleboy/ssh-action@master
@@ -158,6 +158,6 @@ jobs:
             export ADMIN_JWT_SECRET=$ADMIN_JWT_SECRET
             export NEXT_PUBLIC_STRAPI_API_URL=$NEXT_PUBLIC_STRAPI_API_URL
             export NODE_ENV=$NODE_ENV
-            printenv
+            cd ../srv
             docker-compose pull
             docker-compose up -d --no-deps
