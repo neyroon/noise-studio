@@ -10,9 +10,7 @@ COPY yarn.lock yarn.lock
 RUN yarn install --production
 
 COPY favicon.ico .
-COPY .cache .cache
 COPY api api
-COPY build build
 COPY components components
 COPY config config
 COPY extensions extensions

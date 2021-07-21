@@ -9,7 +9,6 @@ COPY yarn.lock yarn.lock
 
 RUN yarn install --production
 
-COPY .next .next
 COPY public public
 
 RUN yarn build
