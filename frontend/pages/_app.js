@@ -1,5 +1,4 @@
 import App from "next/app";
-import Head from "next/head";
 import Layout from "../components/Layout";
 import { ApolloProvider } from "@apollo/client";
 import { getCategoriesQuery } from "../utils/api";
