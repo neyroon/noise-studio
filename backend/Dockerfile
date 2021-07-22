@@ -1,4 +1,4 @@
-FROM strapi/base:14-alpine
+FROM node:14-alpine as build
 
 ARG NEXT_PUBLIC_STRAPI_API_URL
 ENV NODE_ENV=production API_URL=$NEXT_PUBLIC_STRAPI_API_URL
@@ -19,6 +19,15 @@ COPY extensions extensions
 COPY public/robots.txt public/
 
 RUN yarn build
+
+FROM node:14-alpine
+
+COPY --from=build /backend /backend
+
+WORKDIR /backend
+
+ARG NEXT_PUBLIC_STRAPI_API_URL
+ENV NODE_ENV=production API_URL=$NEXT_PUBLIC_STRAPI_API_URL
 
 EXPOSE 1337
 

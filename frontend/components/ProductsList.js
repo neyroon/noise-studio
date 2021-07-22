@@ -80,7 +80,7 @@ const ProductsList = ({ products, categoryName, needFilters = true }) => {
         </Link>
       </div>
       <div className="flex mt-6">
-        <div className="w-2/6 bg-white"></div>
+        <div className="w-60 bg-white">Фильтров не найдено</div>
         {productsList}
       </div>
     </>
