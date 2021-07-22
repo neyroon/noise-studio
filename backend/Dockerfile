@@ -1,6 +1,6 @@
 FROM strapi/base:14-alpine
 
-ENV NODE_ENV production
+ENV NODE_ENV=production
 
 WORKDIR /backend
 
