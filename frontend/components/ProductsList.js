@@ -13,7 +13,7 @@ const ProductsList = ({ products, categoryName, needFilters = true }) => {
 
   if (!products) return "Продукты отсутствуют";
   const productsList = (
-    <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 ">
+    <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 ml-6">
       {products.map((_product) => (
         <div
           key={_product.id}
