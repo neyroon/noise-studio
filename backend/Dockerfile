@@ -2,9 +2,9 @@ FROM strapi/base:14-alpine
 
 ENV NODE_ENV=production
 
-WORKDIR /backend
+RUN npm install --global pm2
 
-RUN yarn global add pm2
+WORKDIR /backend
 
 COPY package.json package.json
 COPY yarn.lock yarn.lock
@@ -22,4 +22,4 @@ RUN yarn build
 
 EXPOSE 1337
 
-CMD [ "pm2-runtime", "start", "yarn", "--", "start" ]
+CMD yarn start
