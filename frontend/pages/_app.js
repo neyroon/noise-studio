@@ -1,10 +1,17 @@
 import App from "next/app";
-import Layout from "../components/Layout";
+import Router from "next/router";
 import { ApolloProvider } from "@apollo/client";
+import Layout from "../components/Layout";
 import { getCategoriesQuery } from "../utils/api";
 import { initializeApollo, useApollo } from "../utils/apolloClient";
 import "tailwindcss/tailwind.css";
 import "../styles/index.scss";
+import NProgress from "nprogress";
+import "nprogress/nprogress.css";
+
+Router.events.on("routeChangeStart", () => NProgress.start());
+Router.events.on("routeChangeComplete", () => NProgress.done());
+Router.events.on("routeChangeError", () => NProgress.done());
 
 const MyApp = ({ Component, pageProps }) => {
   const apolloClient = useApollo(pageProps.initialApolloState);

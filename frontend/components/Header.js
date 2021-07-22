@@ -8,7 +8,7 @@ const Header = () => {
       <Link href="/">
         <a>
           <img
-            src={getStrapiMedia("/uploads/thumbnail_logo_black_3443a0d97c.png")}
+            src={getStrapiMedia("/uploads/thumbnail_logo_black_326ad58aa7.png")}
             alt="home"
             className="logo"
             width="245"

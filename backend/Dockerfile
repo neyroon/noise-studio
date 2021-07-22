@@ -3,7 +3,6 @@ FROM strapi/base:14-alpine
 ARG NEXT_PUBLIC_STRAPI_API_URL
 ENV NODE_ENV=production API_URL=$NEXT_PUBLIC_STRAPI_API_URL
 
-RUN npm install --global pm2
 
 WORKDIR /backend
 
