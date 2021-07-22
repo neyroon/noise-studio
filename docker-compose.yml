@@ -11,8 +11,6 @@ services:
     depends_on:
       - strapi
     restart: unless-stopped
-    volumes:
-      - ./frontend:/srv/app/frontend
 
   strapi:
     container_name: strapi
@@ -32,7 +30,7 @@ services:
       - postgres
     restart: unless-stopped
     volumes:
-      - ./backend/public:/public
+      - backend:/backend/public/uploads
 
   postgres:
     container_name: postgres
@@ -49,3 +47,4 @@ services:
 
 volumes:
   pgdata:
+  backend:
