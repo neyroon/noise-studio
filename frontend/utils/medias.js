@@ -10,6 +10,6 @@ export function getStrapiMedia(url) {
 
   // Otherwise prepend the URL path with the Strapi URL
   return `${
-    process.env.NEXT_PUBLIC_STRAPI_API_URL || "https://noise-studio/api"
+    process.env.NEXT_PUBLIC_STRAPI_API_URL || "https://noise-studio.ru/api"
   }${url}`;
 }
