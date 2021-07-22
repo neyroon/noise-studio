@@ -19,5 +19,5 @@ COPY public/robots.txt public/
 RUN yarn build
 
 EXPOSE 1337
-
+RUN printenv
 CMD yarn start
