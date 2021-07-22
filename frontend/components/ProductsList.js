@@ -7,7 +7,9 @@ const ProductsList = ({ products, categoryName, needFilters = true }) => {
   const [orderTitle, setOrderTitle] = useState(false);
   const [orderPrice, setOrderPrice] = useState(false);
   const router = useRouter();
-  const currentURL = useRef(router.asPath);
+  const currentURL = router.asPath.includes("?")
+    ? router.asPath.split("?")[0]
+    : router.asPath;
 
   if (!products) return "Продукты отсутствуют";
   const productsList = (
@@ -40,6 +42,7 @@ const ProductsList = ({ products, categoryName, needFilters = true }) => {
       ))}
     </div>
   );
+
   if (!needFilters) return productsList;
 
   return (
@@ -48,7 +51,7 @@ const ProductsList = ({ products, categoryName, needFilters = true }) => {
       <div className="w-full px-5 py-4 bg-white mt-6">
         <Link
           href={{
-            pathname: `${currentURL.current}`,
+            pathname: `${currentURL}`,
             query: {
               sort_by: "title",
               sort_order: `${orderTitle ? "desc" : "asc"}`,
@@ -61,7 +64,7 @@ const ProductsList = ({ products, categoryName, needFilters = true }) => {
         </Link>
         <Link
           href={{
-            pathname: `${currentURL.current}`,
+            pathname: `${currentURL}`,
             query: {
               sort_by: "price",
               sort_order: `${orderPrice ? "desc" : "asc"}`,

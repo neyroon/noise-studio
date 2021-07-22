@@ -10,8 +10,8 @@ const Header = () => {
             src="/strapi.png"
             alt="home"
             className="logo"
-            width="250"
-            height="150"
+            width="256"
+            height="75"
           />
         </a>
       </Link>

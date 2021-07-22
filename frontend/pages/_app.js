@@ -4,6 +4,7 @@ import Layout from "../components/Layout";
 import { ApolloProvider } from "@apollo/client";
 import { getCategoriesQuery } from "../utils/api";
 import { initializeApollo, useApollo } from "../utils/apolloClient";
+import "tailwindcss/tailwind.css";
 import "../styles/index.scss";
 
 const MyApp = ({ Component, pageProps }) => {
