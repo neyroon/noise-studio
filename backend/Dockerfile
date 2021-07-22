@@ -1,5 +1,7 @@
 FROM strapi/base:14-alpine
 
+ENV NODE_ENV production
+
 WORKDIR /backend
 
 COPY package.json package.json
