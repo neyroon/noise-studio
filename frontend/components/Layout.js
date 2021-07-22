@@ -8,7 +8,7 @@ const Layout = ({ children, categories }) => {
       <aside>
         <CategoryButtons categories={categories} />
       </aside>
-      <div className="flex flex-col min-h-screen w-full">
+      <div className="flex flex-col min-h-screen w-full container">
         <Header />
 
         <div className="flex-grow">{children}</div>
