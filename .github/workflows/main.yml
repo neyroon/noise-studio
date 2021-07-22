@@ -91,7 +91,7 @@ jobs:
             DATABASE_PASSWORD,
             ADMIN_JWT_SECRET,
             NEXT_PUBLIC_STRAPI_API_URL,
-            NODE_ENV
+            NODE_ENV,
             DATABASE_SSL
           script: |
             echo $CR_PAT | docker login ghcr.io -u neyroon --password-stdin
