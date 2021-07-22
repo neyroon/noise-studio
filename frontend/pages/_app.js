@@ -11,12 +11,6 @@ const MyApp = ({ Component, pageProps }) => {
   return (
     <ApolloProvider client={apolloClient}>
       <Layout categories={pageProps.categories}>
-        <Head>
-          <link
-            rel="stylesheet"
-            href="https://cdn.snipcart.com/themes/v3.0.16/default/snipcart.css"
-          />
-        </Head>
         <Component {...pageProps} />
       </Layout>
     </ApolloProvider>
