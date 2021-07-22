@@ -29,7 +29,10 @@ const ProductsList = ({ products, categoryName, needFilters = true }) => {
                 />
               </div>
               <div className="pl-4 pr-4 pb-4 pt-4 rounded-lg">
-                <h4 className="mt-1 font-semibold text-base leading-tight truncate text-gray-700">
+                <h3 className="mt-1 font-bold text-xl leading-tight truncate text-gray-700 text-center">
+                  {_product.price} руб.
+                </h3>
+                <h4 className="mt-1 font-semibold text-base leading-tight truncate text-gray-700 text-center">
                   {_product.title}
                 </h4>
                 <div className="mt-1 text-sm text-gray-700">
