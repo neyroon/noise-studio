@@ -4,6 +4,8 @@ ENV NODE_ENV=production
 
 WORKDIR /backend
 
+RUN yarn global add pm2
+
 COPY package.json package.json
 COPY yarn.lock yarn.lock
 
@@ -19,5 +21,5 @@ COPY public/robots.txt public/
 RUN yarn build
 
 EXPOSE 1337
-RUN printenv
-CMD yarn start
+
+CMD [ "pm2-runtime", "start", "yarn", "--", "start" ]

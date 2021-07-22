@@ -4,6 +4,8 @@ ENV NODE_ENV=production
 
 WORKDIR /frontend
 
+RUN yarn global add pm2
+
 COPY package.json package.json
 COPY yarn.lock yarn.lock
 
@@ -19,4 +21,4 @@ RUN yarn build
 
 EXPOSE 3000
 
-CMD yarn start
+CMD [ "pm2-runtime", "start", "yarn", "--", "start" ]
