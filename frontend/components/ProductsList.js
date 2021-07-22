@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Image from "next/image";
 import { useRouter } from "next/router";
 import { useRef, useState } from "react";
 import { getStrapiMedia } from "../utils/medias";
@@ -21,7 +20,7 @@ const ProductsList = ({ products, categoryName, needFilters = true }) => {
           <Link href={`/products/${_product.slug}`}>
             <a>
               <div className="rounded-t-lg bg-white pt-2 pb-2">
-                <Image
+                <img
                   className="crop mx-auto"
                   src={getStrapiMedia(_product.image.formats.thumbnail.url)}
                   alt={_product.title}
