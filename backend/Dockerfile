@@ -1,6 +1,7 @@
 FROM strapi/base:14-alpine
 
-ENV NODE_ENV=production NEXT_PUBLIC_STRAPI_API_URL=https://noise-studio.ru/api
+ARG NEXT_PUBLIC_STRAPI_API_URL
+ENV NODE_ENV=production API_URL=$NEXT_PUBLIC_STRAPI_API_URL
 
 RUN npm install --global pm2
 
