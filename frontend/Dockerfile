@@ -15,6 +15,7 @@ COPY pages pages
 COPY styles styles
 COPY utils utils
 
+RUN ls
 RUN yarn build
 
 EXPOSE 3000
