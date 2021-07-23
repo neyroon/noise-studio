@@ -7,7 +7,7 @@ import { getCategoriesQuery } from "../utils/api";
 import { initializeApollo, useApollo } from "../utils/apolloClient";
 import "tailwindcss/tailwind.css";
 import "../styles/index.scss";
-import "nprogress/nprogress.css";
+import "../styles/nprogress.scss";
 import dynamic from "next/dynamic";
 
 const CartContextProvider = dynamic(() => import("../context/CartContext"), {
