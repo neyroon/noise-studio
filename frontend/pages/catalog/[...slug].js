@@ -19,12 +19,12 @@ const CategoryPage = ({ slug, query }) => {
   const category = slug.length > 1 ? data.subcategories[0] : data.categories[0];
 
   return (
-    <div>
+    <>
       <Head>
         <title>{category.name} products</title>
       </Head>
       <ProductsList products={category.products} />
-    </div>
+    </>
   );
 };
 
@@ -38,6 +38,7 @@ export async function getServerSideProps({ params, query }) {
   const variables = {
     slug: slug.length > 1 ? slug[1] : slug[0],
   };
+
   if (sort_by && sort_order) variables.sort = `${sort_by}:${sort_order}`;
 
   const client = initializeApollo();

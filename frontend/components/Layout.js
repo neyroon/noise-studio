@@ -5,7 +5,7 @@ import Header from "./Header";
 const Layout = ({ children, categories }) => {
   return (
     <div className="flex bg-gray-200">
-      <aside>
+      <aside className="hidden lg:block">
         <CategoryButtons categories={categories} />
       </aside>
       <div className="flex flex-col min-h-screen w-full mx-6">

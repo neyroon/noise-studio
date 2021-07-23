@@ -1,16 +1,21 @@
-import { useQuery } from "@apollo/client";
 import Head from "next/head";
-import { useRouter } from "next/router";
+import { useQuery } from "@apollo/client";
+import { useContext } from "react";
 import { getProductQuery } from "../../utils/api";
 import { initializeApollo } from "../../utils/apolloClient";
 import { getStrapiMedia } from "../../utils/medias";
+import { CartContext } from "../../context/CartContext";
 
 const ProductPage = ({ slug }) => {
-  const router = useRouter();
-
   const { loading, data, error } = useQuery(getProductQuery, {
     variables: { slug },
   });
+
+  const { addProduct, cartItems, increase } = useContext(CartContext);
+
+  const isInCart = (product) => {
+    return !!cartItems.find((item) => item.id === product.id);
+  };
 
   const product = data.products[0];
 
@@ -36,18 +41,12 @@ const ProductPage = ({ slug }) => {
 
         {product.status === "published" ? (
           <button
-            className="snipcart-add-item mt-4 bg-white border border-gray-200 d hover:shadow-lg text-gray-700 font-semibold py-2 px-4 rounded shadow"
-            data-item-id={product.id}
-            data-item-price={product.price}
-            data-item-url={router.asPath}
-            data-item-description={product.description}
-            data-item-image={getStrapiMedia(
-              product.image.formats.thumbnail.url
-            )}
-            data-item-name={product.title}
-            v-bind="customFields"
+            onClick={() =>
+              (isInCart(product) && increase(product)) || addProduct(product)
+            }
+            className="btn btn-outline-primary btn-sm"
           >
-            Add to cart
+            Add more
           </button>
         ) : (
           <div className="text-center mr-10 mb-1" v-else>
