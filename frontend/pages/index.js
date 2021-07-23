@@ -11,7 +11,7 @@ const HomePage = () => {
   return (
     <div>
       <Head>
-        <title>NoiseStudio</title>
+        <title>Noise studio - Главная</title>
       </Head>
       <h1 className="font-bold text-center text-xl mb-6">Новинки</h1>
       <ProductsList products={data.products} needFilters={false} />

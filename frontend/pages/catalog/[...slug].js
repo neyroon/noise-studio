@@ -21,7 +21,7 @@ const CategoryPage = ({ slug, query }) => {
   return (
     <>
       <Head>
-        <title>{category.name} products</title>
+        <title>Категория - {category.name}</title>
       </Head>
       <ProductsList products={category.products} />
     </>
