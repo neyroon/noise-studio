@@ -26,8 +26,5 @@ module.exports = {
     async afterUpdate(result) {
       updateParentCategoryProducts(result);
     },
-    async afterDelete(result, params) {
-      console.log("result: ", result, "params: ", params);
-    },
   },
 };
