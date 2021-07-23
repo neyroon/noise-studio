@@ -38,7 +38,7 @@ jobs:
       - name: Pull frontend image to use as a cache
         run: docker pull ghcr.io/neyroon/noise-studio-frontend:latest || exit 0
       - name: Build frontend docker image
-        run: docker build . --cache-from ghcr.io/neyroon/noise-studio-frontend:latest --tag ghcr.io/neyroon/noise-studio-frontend:latest
+        run: docker build . --cache-from ghcr.io/neyroon/noise-studio-frontend:latest --tag ghcr.io/neyroon/noise-studio-frontend:latest --build-arg NEXT_PUBLIC_STRAPI_API_URL
       - name: Push the frontend image to GitHub Container Registry
         run: docker push ghcr.io/neyroon/noise-studio-frontend:latest
   docker-push-strapi:

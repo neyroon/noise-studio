@@ -1,6 +1,7 @@
-FROM node:14-alpine
+FROM node:14-alpine as build
 
-ENV NODE_ENV=production
+ARG NEXT_PUBLIC_STRAPI_API_URL
+ENV NODE_ENV=production NEXT_PUBLIC_STRAPI_API_URL=$NEXT_PUBLIC_STRAPI_API_URL
 
 WORKDIR /frontend
 
@@ -20,6 +21,15 @@ COPY postcss.config.js postcss.config.js
 COPY tailwind.config.js tailwind.config.js
 
 RUN yarn build
+
+FROM node:14-alpine
+
+COPY --from=build /frontend /frontend
+
+WORKDIR /frontend
+
+ARG NEXT_PUBLIC_STRAPI_API_URL
+ENV NODE_ENV=production API_URL=$NEXT_PUBLIC_STRAPI_API_URL
 
 EXPOSE 3000
 
